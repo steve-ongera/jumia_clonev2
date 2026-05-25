@@ -1,71 +1,121 @@
 // src/components/Footer.jsx
 import { Link } from "react-router-dom";
 
+const SOCIAL_LINKS = [
+  { icon: "bi-facebook",   href: "#", label: "Facebook" },
+  { icon: "bi-twitter-x",  href: "#", label: "Twitter/X" },
+  { icon: "bi-instagram",  href: "#", label: "Instagram" },
+  { icon: "bi-youtube",    href: "#", label: "YouTube" },
+];
+
+const HELP_LINKS = [
+  { label: "Track My Order",    to: "/orders",  internal: true },
+  { label: "Returns & Refunds", href: "#" },
+  { label: "Help Center",       href: "#" },
+  { label: "Contact Us",        href: "#" },
+];
+
+const ABOUT_LINKS = [
+  { label: "About Us",          href: "#" },
+  { label: "Seller Portal",     href: "#" },
+  { label: "Affiliate Program", href: "#" },
+  { label: "Privacy Policy",    href: "#" },
+];
+
+const PAYMENT_METHODS = ["M-Pesa", "Visa", "Mastercard", "Cash on Delivery"];
+
+const APP_BUTTONS = [
+  { label: "App Store",   icon: "bi-apple",       href: "#" },
+  { label: "Google Play", icon: "bi-google-play", href: "#" },
+];
+
 export default function Footer() {
   return (
-    <footer style={{ background: "var(--jumia-dark)", color: "#ccc", marginTop: 40 }}>
-      <div className="container" style={{ padding: "40px 16px 20px" }}>
-        <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(180px, 1fr))", gap: 32, marginBottom: 32 }}>
-          <div>
-            <h4 style={{ color: "white", fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "1.4rem", marginBottom: 12 }}>jumia</h4>
-            <p style={{ fontSize: "0.85rem", lineHeight: 1.7 }}>Kenya's #1 online shopping destination. Safe, fast and secure.</p>
-            <div style={{ display: "flex", gap: 12, marginTop: 16 }}>
-              {["facebook", "twitter-x", "instagram", "youtube"].map(s => (
-                <a key={s} href="#" style={{ color: "#ccc", fontSize: "1.2rem" }}>
-                  <i className={`bi-${s}`} />
-                </a>
-              ))}
-            </div>
-          </div>
+    <footer className="footer">
+      <div className="footer-top">
+        <div className="container">
+          <div className="footer-grid">
 
-          <div>
-            <h5 style={{ color: "white", fontWeight: 700, marginBottom: 12 }}>Need Help?</h5>
-            <ul style={{ listStyle: "none", fontSize: "0.85rem", lineHeight: 2.2 }}>
-              <li><Link to="/orders" style={{ color: "#ccc" }}>Track My Order</Link></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Returns & Refunds</a></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Help Center</a></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Contact Us</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 style={{ color: "white", fontWeight: 700, marginBottom: 12 }}>About Jumia</h5>
-            <ul style={{ listStyle: "none", fontSize: "0.85rem", lineHeight: 2.2 }}>
-              <li><a href="#" style={{ color: "#ccc" }}>About Us</a></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Seller Portal</a></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Affiliate Program</a></li>
-              <li><a href="#" style={{ color: "#ccc" }}>Privacy Policy</a></li>
-            </ul>
-          </div>
-
-          <div>
-            <h5 style={{ color: "white", fontWeight: 700, marginBottom: 12 }}>Payment Methods</h5>
-            <div style={{ display: "flex", flexWrap: "wrap", gap: 8 }}>
-              {["M-Pesa", "Visa", "Mastercard", "Cash on Delivery"].map(p => (
-                <span key={p} style={{
-                  background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
-                  borderRadius: 4, padding: "4px 10px", fontSize: "0.75rem", color: "white", fontWeight: 600,
-                }}>
-                  {p}
-                </span>
-              ))}
+            {/* Brand column */}
+            <div>
+              <Link to="/" className="footer-logo">jumia</Link>
+              <p className="footer-desc">
+                Kenya&rsquo;s #1 online shopping destination.
+                Safe, fast and secure delivery across the country.
+              </p>
+              <div className="footer-socials">
+                {SOCIAL_LINKS.map(({ icon, href, label }) => (
+                  <a
+                    key={icon}
+                    href={href}
+                    aria-label={label}
+                    className="footer-social-link"
+                  >
+                    <i className={`bi ${icon}`} />
+                  </a>
+                ))}
+              </div>
             </div>
-            <h5 style={{ color: "white", fontWeight: 700, marginBottom: 10, marginTop: 20 }}>Download App</h5>
-            <div style={{ display: "flex", gap: 8 }}>
-              {["App Store", "Google Play"].map(s => (
-                <a key={s} href="#" style={{
-                  background: "rgba(255,255,255,0.1)", border: "1px solid rgba(255,255,255,0.2)",
-                  borderRadius: 4, padding: "6px 12px", fontSize: "0.75rem", color: "white", fontWeight: 600,
-                }}>
-                  <i className={`bi-${s === "App Store" ? "apple" : "google-play"} me-1`} />{s}
-                </a>
-              ))}
+
+            {/* Need Help */}
+            <div>
+              <h5 className="footer-col-title">Need Help?</h5>
+              <ul className="footer-links">
+                {HELP_LINKS.map(({ label, to, href, internal }) => (
+                  <li key={label}>
+                    {internal ? (
+                      <Link to={to}>{label}</Link>
+                    ) : (
+                      <a href={href}>{label}</a>
+                    )}
+                  </li>
+                ))}
+              </ul>
             </div>
+
+            {/* About Jumia */}
+            <div>
+              <h5 className="footer-col-title">About Jumia</h5>
+              <ul className="footer-links">
+                {ABOUT_LINKS.map(({ label, href }) => (
+                  <li key={label}>
+                    <a href={href}>{label}</a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Payment + App */}
+            <div>
+              <h5 className="footer-col-title">Payment Methods</h5>
+              <div className="footer-payment-methods">
+                {PAYMENT_METHODS.map((method) => (
+                  <span key={method} className="footer-payment-badge">
+                    {method}
+                  </span>
+                ))}
+              </div>
+
+              <h5 className="footer-col-title" style={{ marginTop: 20 }}>
+                Download App
+              </h5>
+              <div className="footer-app-buttons">
+                {APP_BUTTONS.map(({ label, icon, href }) => (
+                  <a key={label} href={href} className="footer-app-btn">
+                    <i className={`bi ${icon}`} />
+                    {label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
           </div>
         </div>
+      </div>
 
-        <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", paddingTop: 16, textAlign: "center", fontSize: "0.8rem" }}>
-          © {new Date().getFullYear()} Jumia Clone. Built with Django + React + M-Pesa.
+      <div className="footer-bottom">
+        <div className="container">
+          &copy; {new Date().getFullYear()} Jumia Clone. Built with Django + React + M-Pesa.
         </div>
       </div>
     </footer>
