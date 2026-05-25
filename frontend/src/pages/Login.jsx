@@ -5,14 +5,14 @@ import { useAuth } from "../context/AuthContext";
 import { getErrorMessage } from "../utils/api";
 
 export default function Login() {
-  const { login } = useAuth();
-  const navigate = useNavigate();
-  const location = useLocation();
-  const from = location.state?.from?.pathname || "/";
+  const { login }    = useAuth();
+  const navigate     = useNavigate();
+  const location     = useLocation();
+  const from         = location.state?.from?.pathname || "/";
 
-  const [form, setForm] = useState({ username: "", password: "" });
+  const [form, setForm]       = useState({ username: "", password: "" });
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [error,   setError]   = useState("");
   const [showPwd, setShowPwd] = useState(false);
 
   const handleSubmit = async (e) => {
@@ -30,72 +30,101 @@ export default function Login() {
   };
 
   return (
-    <div style={{ minHeight: "80vh", display: "flex", alignItems: "center", justifyContent: "center", padding: 16 }}>
-      <div style={{ width: "100%", maxWidth: 440 }}>
+    <div className="auth-page">
+      <div className="auth-container auth-container-sm">
+
         {/* Logo */}
-        <div style={{ textAlign: "center", marginBottom: 32 }}>
-          <Link to="/">
-            <div style={{ fontFamily: "'Montserrat', sans-serif", fontWeight: 900, fontSize: "2.5rem", color: "var(--jumia-orange)", letterSpacing: "-2px" }}>
-              jumia
-            </div>
-          </Link>
-          <p style={{ color: "var(--jumia-grey)", marginTop: 6 }}>Sign in to your account</p>
+        <div className="auth-logo-wrap">
+          <Link to="/" className="auth-logo">jumia</Link>
+          <p className="auth-tagline">Sign in to your account</p>
         </div>
 
-        <div className="card" style={{ padding: 32 }}>
-          {error && <div className="alert alert-error"><i className="bi-exclamation-circle" /> {error}</div>}
+        {/* Card */}
+        <div className="auth-card">
+
+          {error && (
+            <div className="alert alert-error">
+              <i className="bi bi-exclamation-circle" /> {error}
+            </div>
+          )}
 
           <form onSubmit={handleSubmit}>
+
+            {/* Username */}
             <div className="form-group">
-              <label><i className="bi-person" /> Username</label>
+              <label className="form-label">
+                <i className="bi bi-person" /> Username
+              </label>
               <input
+                className="form-control"
                 type="text"
                 value={form.username}
-                onChange={e => setForm(p => ({ ...p, username: e.target.value }))}
+                onChange={(e) => setForm((p) => ({ ...p, username: e.target.value }))}
                 placeholder="Enter your username"
                 required
                 autoFocus
               />
             </div>
 
+            {/* Password */}
             <div className="form-group">
-              <label><i className="bi-lock" /> Password</label>
-              <div style={{ position: "relative" }}>
+              <label className="form-label">
+                <i className="bi bi-lock" /> Password
+              </label>
+              <div className="input-password-wrapper">
                 <input
+                  className="form-control"
                   type={showPwd ? "text" : "password"}
                   value={form.password}
-                  onChange={e => setForm(p => ({ ...p, password: e.target.value }))}
+                  onChange={(e) => setForm((p) => ({ ...p, password: e.target.value }))}
                   placeholder="Enter your password"
                   required
-                  style={{ paddingRight: 44 }}
                 />
-                <button type="button" onClick={() => setShowPwd(!showPwd)}
-                  style={{ position: "absolute", right: 12, top: "50%", transform: "translateY(-50%)", color: "var(--jumia-grey)", fontSize: "1.1rem" }}>
-                  <i className={showPwd ? "bi-eye-slash" : "bi-eye"} />
+                <button
+                  type="button"
+                  className="input-password-toggle"
+                  onClick={() => setShowPwd((v) => !v)}
+                  aria-label={showPwd ? "Hide password" : "Show password"}
+                >
+                  <i className={`bi ${showPwd ? "bi-eye-slash" : "bi-eye"}`} />
                 </button>
               </div>
             </div>
 
-            <button type="submit" className="btn btn-orange btn-full" style={{ padding: 14, fontSize: "1rem", marginTop: 8 }} disabled={loading}>
-              {loading
-                ? <><div className="spinner" style={{ width: 18, height: 18, borderWidth: 3, display: "inline-block", margin: "0 8px 0 0" }} />Signing in...</>
-                : <><i className="bi-box-arrow-in-right" /> Sign In</>}
+            <button
+              type="submit"
+              className="btn btn-orange btn-full btn-lg"
+              style={{ marginTop: 8 }}
+              disabled={loading}
+            >
+              {loading ? (
+                <>
+                  <span className="spinner spinner-sm spinner-inline" />
+                  Signing in…
+                </>
+              ) : (
+                <>
+                  <i className="bi bi-box-arrow-in-right" /> Sign In
+                </>
+              )}
             </button>
           </form>
 
-          <div style={{ textAlign: "center", marginTop: 20, paddingTop: 20, borderTop: "1px solid var(--jumia-border)" }}>
-            <p style={{ color: "#555", fontSize: "0.9rem" }}>
-              Don't have an account?{" "}
-              <Link to="/register" style={{ color: "var(--jumia-orange)", fontWeight: 700 }}>Create Account</Link>
+          {/* Footer link */}
+          <div className="auth-footer-link">
+            <p>
+              Don&rsquo;t have an account?{" "}
+              <Link to="/register">Create Account</Link>
             </p>
           </div>
         </div>
 
-        <div style={{ marginTop: 20, background: "var(--jumia-orange-light)", borderRadius: 8, padding: 16 }}>
-          <p style={{ fontSize: "0.82rem", fontWeight: 600, color: "var(--jumia-orange-dark)", textAlign: "center" }}>
-            <i className="bi-shield-lock-fill" /> Your data is protected with industry-standard encryption
-          </p>
+        {/* Trust note */}
+        <div className="auth-trust-note">
+          <i className="bi bi-shield-lock-fill" /> Your data is protected with
+          industry-standard encryption
         </div>
+
       </div>
     </div>
   );
